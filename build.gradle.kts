@@ -59,6 +59,7 @@ dependencies {
 
 	// S3
 	implementation ("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+
 	implementation("software.amazon.awssdk:s3:2.17.43")
 }
 
