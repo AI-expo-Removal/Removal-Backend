@@ -1,5 +1,7 @@
-package com.example.removalbackend.global.config
+package com.example.removalbackend.global.utils
 
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -28,6 +30,13 @@ class S3Config {
     fun s3Presigner(): S3Presigner {
         return S3Presigner.builder()
             .region(Region.of(region))
+            .build()
+    }
+
+    @Bean
+    fun amazonS3(): AmazonS3 {
+        return AmazonS3ClientBuilder.standard()
+            .withRegion(region)
             .build()
     }
 }
