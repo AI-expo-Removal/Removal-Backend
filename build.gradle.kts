@@ -34,6 +34,7 @@ dependencies {
 
 	// security
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation ("org.springframework.security:spring-security-crypto:5.7.1")
 
 	// web
 	implementation("org.springframework.boot:spring-boot-starter-web")
