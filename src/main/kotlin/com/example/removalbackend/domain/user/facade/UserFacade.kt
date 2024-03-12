@@ -4,7 +4,9 @@ import com.example.removalbackend.domain.user.domain.User
 import com.example.removalbackend.domain.user.domain.repository.UserRepository
 import com.example.removalbackend.domain.user.exception.UserNotFoundException
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.stereotype.Component
 
+@Component
 class UserFacade(
     private val userRepository: UserRepository
 ) {
