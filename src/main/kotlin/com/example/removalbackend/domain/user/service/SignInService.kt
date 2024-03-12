@@ -5,7 +5,7 @@ import com.example.removalbackend.domain.user.facade.UserFacade
 import com.example.removalbackend.domain.user.presentation.dto.request.SignInRequest
 import com.example.removalbackend.domain.user.presentation.dto.response.TokenResponse
 import com.example.removalbackend.global.security.jwt.TokenProvider
-import jakarta.transaction.Transactional
+import javax.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
