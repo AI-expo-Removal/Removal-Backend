@@ -10,12 +10,14 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import java.util.*
+import javax.servlet.http.HttpServletRequest
 
+@Component
 class TokenProvider(
     private val tokenProperties: TokenProperties,
     private val authDetailsService: AuthDetailsService,
@@ -32,7 +34,7 @@ class TokenProvider(
     }
     fun generateRefreshToken(accountId: String): String {
         val refreshToken = createToken(accountId, "refresh", tokenProperties.refreshExp)
-        refreshTokenRepository.save(RefreshToken(accountId, refreshToken))
+        refreshTokenRepository.save(RefreshToken(id = null, refreshToken))
         return refreshToken
     }
 
