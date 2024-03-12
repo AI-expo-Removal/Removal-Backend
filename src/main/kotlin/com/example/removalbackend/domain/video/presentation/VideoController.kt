@@ -2,7 +2,7 @@ package com.example.removalbackend.domain.video.presentation
 
 import com.example.removalbackend.domain.video.presentation.dto.VideoRequest
 import com.example.removalbackend.domain.video.service.VideoService
-import jakarta.validation.Valid
+import javax.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
