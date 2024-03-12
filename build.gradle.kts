@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "3.2.3"
+	id("org.springframework.boot") version "2.7.7"
 	id("io.spring.dependency-management") version "1.1.4"
 	kotlin("jvm") version "1.9.22"
 	kotlin("plugin.spring") version "1.9.22"
@@ -34,7 +34,6 @@ dependencies {
 
 	// security
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation ("org.springframework.security:spring-security-crypto:5.7.1")
 
 	// web
 	implementation("org.springframework.boot:spring-boot-starter-web")
