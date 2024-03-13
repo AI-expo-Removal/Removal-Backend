@@ -3,8 +3,10 @@ package com.example.removalbackend.domain.user.presentation
 import com.example.removalbackend.domain.user.presentation.dto.request.SignInRequest
 import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
 import com.example.removalbackend.domain.user.presentation.dto.response.TokenResponse
+import com.example.removalbackend.domain.user.presentation.dto.response.UserInfoResponse
 import com.example.removalbackend.domain.user.service.SignInService
 import com.example.removalbackend.domain.user.service.SignUpService
+import com.example.removalbackend.domain.user.service.UserInfoService
 import com.example.removalbackend.global.security.jwt.TokenProvider
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,7 +24,8 @@ import javax.validation.Valid
 class UserController(
     private val signInService: SignInService,
     private val signUpService: SignUpService,
-    private val tokenProvider: TokenProvider
+    private val tokenProvider: TokenProvider,
+    private val userInfoService: UserInfoService
 
     ) {
     @ResponseStatus(HttpStatus.CREATED)
@@ -32,7 +35,7 @@ class UserController(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/login")
+    @PostMapping("/login")
     fun signIn(@RequestBody @Valid request: SignInRequest) :TokenResponse {
         return signInService.execute(request)
     }
@@ -48,5 +51,11 @@ class UserController(
         } else {
             ResponseEntity.badRequest().body("Invalid token")
         }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/user")
+    fun userInfo(): UserInfoResponse{
+        return userInfoService.execute()
     }
 }
