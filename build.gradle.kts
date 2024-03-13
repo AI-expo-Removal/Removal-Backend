@@ -54,7 +54,7 @@ dependencies {
 
 	// coolSms
 	implementation("net.nurigo:sdk:4.3.0")
-	implementation("net.nurigo:javaSDK:2.2.0")
+	implementation("net.nurigo:javaSDK:2.2")
 
 	// S3
 	implementation ("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
