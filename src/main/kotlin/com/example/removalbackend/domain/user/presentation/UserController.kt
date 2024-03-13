@@ -2,15 +2,18 @@ package com.example.removalbackend.domain.user.presentation
 
 import com.example.removalbackend.domain.user.presentation.dto.request.SignInRequest
 import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
+import com.example.removalbackend.domain.user.presentation.dto.request.UpdatePasswordRequest
 import com.example.removalbackend.domain.user.presentation.dto.response.TokenResponse
 import com.example.removalbackend.domain.user.presentation.dto.response.UserInfoResponse
 import com.example.removalbackend.domain.user.service.SignInService
 import com.example.removalbackend.domain.user.service.SignUpService
+import com.example.removalbackend.domain.user.service.UpdatePasswordService
 import com.example.removalbackend.domain.user.service.UserInfoService
 import com.example.removalbackend.global.security.jwt.TokenProvider
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -25,7 +28,8 @@ class UserController(
     private val signInService: SignInService,
     private val signUpService: SignUpService,
     private val tokenProvider: TokenProvider,
-    private val userInfoService: UserInfoService
+    private val userInfoService: UserInfoService,
+    private val updatePasswordService: UpdatePasswordService
 
     ) {
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,5 +61,11 @@ class UserController(
     @GetMapping("/user")
     fun userInfo(): UserInfoResponse{
         return userInfoService.execute()
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/password")
+    fun updatePassword(@RequestBody @Valid request: UpdatePasswordRequest){
+        return updatePasswordService.updatePassword(request)
     }
 }
