@@ -6,26 +6,31 @@ import javax.persistence.*
 @Entity(name = "tbl_user")
 class User(
     @Id
-    @Column(columnDefinition = "CHAR(20)", nullable = false)
-    var accountId : String,
+    @Column(name = "account_id", columnDefinition = "CHAR(20)", nullable = false)
+    var accountId: String,
 
-    @Column(columnDefinition = "CHAR(60)", nullable = false)
+    @Column(name = "password", columnDefinition = "CHAR(60)", nullable = false)
     var password: String,
 
-    @Column(columnDefinition = "CHAR(5)", nullable = false)
+    @Column(name = "name", columnDefinition = "CHAR(5)", nullable = false)
     var name: String,
 
-    @Column(columnDefinition = "CHAR(12)", nullable = false)
+    @Column(name = "phone_number",columnDefinition = "CHAR(12)", nullable = false)
     var phoneNumber: String
-){
+) {
     @JsonCreator
-    protected constructor() : this( accountId = "user123", password = "password123", name = "hahahaha", phoneNumber = "123456789")
+    constructor() : this(
+        accountId = "user123",
+        password = "password123",
+        name = "hahahaha",
+        phoneNumber = "123456789"
+    )
 
-    fun updatePassword(password: String){
+    fun updatePassword(password: String) {
         this.password = password
     }
 
-    fun updatePhoneNumber(phoneNumber: String){
+    fun updatePhoneNumber(phoneNumber: String) {
         this.phoneNumber = phoneNumber
     }
 }
