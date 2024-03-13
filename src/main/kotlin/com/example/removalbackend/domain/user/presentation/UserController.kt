@@ -5,13 +5,11 @@ import com.example.removalbackend.domain.user.presentation.dto.request.SignUpReq
 import com.example.removalbackend.domain.user.presentation.dto.request.UpdatePasswordRequest
 import com.example.removalbackend.domain.user.presentation.dto.response.TokenResponse
 import com.example.removalbackend.domain.user.presentation.dto.response.UserInfoResponse
-import com.example.removalbackend.domain.user.service.SignInService
-import com.example.removalbackend.domain.user.service.SignUpService
-import com.example.removalbackend.domain.user.service.UpdatePasswordService
-import com.example.removalbackend.domain.user.service.UserInfoService
+import com.example.removalbackend.domain.user.service.*
 import com.example.removalbackend.global.security.jwt.TokenProvider
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -29,7 +27,8 @@ class UserController(
     private val signUpService: SignUpService,
     private val tokenProvider: TokenProvider,
     private val userInfoService: UserInfoService,
-    private val updatePasswordService: UpdatePasswordService
+    private val updatePasswordService: UpdatePasswordService,
+    private val withdrawalService: WithdrawalService
 
     ) {
     @ResponseStatus(HttpStatus.CREATED)
@@ -67,5 +66,11 @@ class UserController(
     @PatchMapping("/password")
     fun updatePassword(@RequestBody @Valid request: UpdatePasswordRequest){
         return updatePasswordService.updatePassword(request)
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping()
+    fun deleteMember(){
+        return withdrawalService.memberDelete()
     }
 }
