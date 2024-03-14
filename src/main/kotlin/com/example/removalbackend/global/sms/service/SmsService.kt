@@ -1,12 +1,19 @@
+import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
 import com.example.removalbackend.global.sms.repository.SmsCertification
+import com.mysql.cj.xdevapi.JsonParser
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.Map
 
 @Service
 class MessageService(
-    private val smsCertification: SmsCertification,
+    private val smsCertification: SmsCertification
 ) {
     @Value("\${coolsms.apikey}")
     private lateinit var apiKey: String
@@ -18,12 +25,13 @@ class MessageService(
     private lateinit var fromNumber: String
 
     private class Message(
+
         private val apiKey: String,
         private val apiSecret: String
     ) {
-        fun send(params: HashMap<String, String>): JsonObject{
+        fun send(params: HashMap<String, JsonElement>): Any{
             // 실제 전송 로직 작성
-            return JsonObject() // 임시로 빈 JSON 객체 반환
+            return JsonObject(params) // 임시로 빈 JSON 객체 반환
         }
     }
 
@@ -37,27 +45,27 @@ class MessageService(
         return randomNum
     }
 
-    private fun makeParams(to: String, randomNum: String): HashMap<String, String> {
-        val params = hashMapOf(
-            "from" to fromNumber,
-            "type" to "SMS",
-            "app_version" to "test app 1.2",
-            "to" to to,
-            "text" to randomNum
-        )
-        return params
+    private fun makeParams(to: String, randomNum: String): JsonElement {
+        val params = "{" +
+            "from : ${fromNumber}, " +
+            "type : SMS, " to "SMS" +
+            "app_version : test app 1.2, " +
+            "to : ${to}, " +
+            "text : ${randomNum}, "+ "}"
+        return Json.encodeToJsonElement(params)
     }
 
     // 인증번호 전송하기
     fun sendSMS(phoneNumber: String): String {
         val coolsms = Message(apiKey, apiSecret)
+        val map = HashMap<String, JsonElement>()
 
         // 랜덤한 인증 번호 생성
         val randomNum = createRandomNumber()
         println(randomNum)
 
         // 발신 정보 설정
-        val params = makeParams(phoneNumber, randomNum)
+        val params = hashMapOf(Pair(phoneNumber, makeParams(phoneNumber, randomNum)))
 
         try {
             val obj = coolsms.send(params) as JsonObject
@@ -69,18 +77,18 @@ class MessageService(
 
         return "문자 전송이 완료되었습니다."
     }
-    fun verifySms(requestDto: UserDto.SmsCertificationDto): String {
-        if (isVerify(requestDto)) {
+    fun verifySms(request: SignUpRequest): String {
+        if (isVerify(request)) {
             throw IllegalArgumentException("인증번호가 일치하지 않습니다.")
         }
-        smsCertification.deleteSmsCertification(requestDto.phoneNumber)
+        smsCertification.deleteSmsCertification(request.phoneNumber)
 
         return "인증 완료되었습니다."
     }
-    private fun isVerify(requestDto: UserDto.SmsCertificationDto): Boolean {
-        return !(smsCertification.hasKey(requestDto.phoneNumber) &&
-                smsCertification.getSmsCertification(requestDto.phoneNumber)
-                    .equals(requestDto.randomNumber))
+    private fun isVerify(request: SignUpRequest): Boolean {
+        return !(smsCertification.hasKey(request.phoneNumber) &&
+                smsCertification.getSmsCertification(request.phoneNumber)
+                    .equals(request.randomNumber))
     }
 }
 
