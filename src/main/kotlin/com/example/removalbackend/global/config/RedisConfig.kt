@@ -1,32 +1,30 @@
-package com.example.removalbackend.global.config
-
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 
-@Configuration
-class RedisConfig(
-    private val redisProperties: RedisProperties,
-    private val redisConnectionFactory: RedisConnectionFactory
+class RedisTemplateFactory(
+    private val redisConnectionFactory: RedisConnectionFactory,
+    private val objectMapper: ObjectMapper
 ) {
+    private val stringRedisSerializer = StringRedisSerializer()
 
-    // lettuce
-    @Bean
-    fun redisConnectionFactory(): RedisConnectionFactory {
-        return LettuceConnectionFactory(redisProperties.host, redisProperties.port)
+    fun getRedisTemplate(): RedisTemplate<String, String> {
+        return getRedisTemplate(stringRedisSerializer, stringRedisSerializer)
     }
 
-//    @Bean
-//    fun redisTemplate(): RedisTemplate<String, Any> {
-//        return RedisTemplate<String, Any>().apply {
-//            this.connectionFactory = redisConnectionFactory
-//            this.keySerializer = StringRedisSerializer()
-//            this.valueSerializer = StringRedisSerializer()
-//            this.afterPropertiesSet()
-//        }
-//    }
+    private fun <K, V> getRedisTemplate(
+        keySerializer: RedisSerializer<K>,
+        valueSerializer: RedisSerializer<V>
+    ): RedisTemplate<K, V> {
+        return RedisTemplate<K, V>().apply {
+            this.keySerializer = keySerializer
+            this.hashKeySerializer = keySerializer
+            this.valueSerializer = valueSerializer
+            this.hashValueSerializer = valueSerializer
+            setConnectionFactory(redisConnectionFactory)
+            this.afterPropertiesSet()
+        }
+    }
 }
