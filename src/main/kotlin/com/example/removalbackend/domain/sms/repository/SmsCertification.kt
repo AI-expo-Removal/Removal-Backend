@@ -1,4 +1,4 @@
-package com.example.removalbackend.global.sms.repository
+package com.example.removalbackend.domain.sms.repository
 
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Repository

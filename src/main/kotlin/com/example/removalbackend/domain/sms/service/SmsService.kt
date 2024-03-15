@@ -1,6 +1,5 @@
 import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
-import com.example.removalbackend.global.sms.repository.SmsCertification
-import com.mysql.cj.xdevapi.JsonParser
+import com.example.removalbackend.domain.sms.repository.SmsCertification
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.collections.Map
 
 @Service
 class MessageService(
