@@ -1,3 +1,4 @@
+import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
 import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
 import com.example.removalbackend.domain.sms.repository.SmsCertification
 import kotlinx.serialization.json.Json
@@ -54,7 +55,7 @@ class MessageService(
     }
 
     // 인증번호 전송하기
-    fun sendSMS(phoneNumber: String): String {
+    fun sendSMS(request: SmsRequest): String {
         val coolsms = Message(apiKey, apiSecret)
         val map = HashMap<String, JsonElement>()
 
@@ -63,7 +64,7 @@ class MessageService(
         println(randomNum)
 
         // 발신 정보 설정
-        val params = hashMapOf(Pair(phoneNumber, makeParams(phoneNumber, randomNum)))
+        val params = hashMapOf(Pair(request.phoneNumber, makeParams(request.phoneNumber, randomNum)))
 
         try {
             val obj = coolsms.send(params) as JsonObject
