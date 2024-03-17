@@ -15,7 +15,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 @Service
-class MessageService(
+class SmsService(
     private val smsCertification: SmsCertification
 ) {
     @Value("\${coolsms.api.key}")
