@@ -7,8 +7,8 @@ class SmsController(
     private val messageService: MessageService
 ) {
 
-    @PostMapping("/send")
-    fun sendSms(@RequestParam smsRequest: SmsRequest): String {
+    @PostMapping
+    fun sendSms(@RequestBody smsRequest: SmsRequest): String {
         messageService.sendSMS(smsRequest)
         return "SMS 발송 완료"
     }
