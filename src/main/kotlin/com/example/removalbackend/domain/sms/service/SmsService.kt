@@ -18,13 +18,13 @@ import kotlin.collections.HashMap
 class SmsService(
     private val smsCertification: SmsCertification
 ) {
-    @Value("\${coolsms.api.key}")
+    @Value("\${SMS_KEY}")
     private lateinit var apiKey: String
 
-    @Value("\${coolsms.api.secret}")
+    @Value("\${SMS_SECRET}")
     private lateinit var apiSecret: String
 
-    @Value("\${coolsms.from.number}")
+    @Value("\${SMS_NUMBER}")
     private lateinit var fromNumber: String
 
     private class Message(
