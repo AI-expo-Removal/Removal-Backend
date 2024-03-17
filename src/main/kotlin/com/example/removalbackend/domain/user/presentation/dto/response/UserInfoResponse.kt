@@ -4,5 +4,4 @@ class UserInfoResponse(
     val accountId: String,
     val name : String,
     val phoneNumber: String
-) {
-}
+)
