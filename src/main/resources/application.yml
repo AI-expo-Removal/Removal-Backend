@@ -53,5 +53,5 @@ logging:
           EC2MetadataUtils: error
 coolsms:
   api:
-    key: "your API Key"
-    secret: "your API Secret"
+    key: ${SMS_KEY}
+    secret: ${SMS_SECRET}
