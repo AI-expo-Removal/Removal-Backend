@@ -1,4 +1,6 @@
+import com.example.removalbackend.domain.sms.exception.CoolSmsException
 import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
+import com.example.removalbackend.domain.sms.presentation.dto.response.SmsResponse
 import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
 import com.example.removalbackend.domain.sms.repository.SmsCertification
 import kotlinx.serialization.json.Json
@@ -14,17 +16,16 @@ import kotlin.collections.HashMap
 class MessageService(
     private val smsCertification: SmsCertification
 ) {
-    @Value("\${coolsms.apikey}")
+    @Value("\${coolsms.api.key}")
     private lateinit var apiKey: String
 
-    @Value("\${coolsms.apisecret}")
+    @Value("\${coolsms.api.secret}")
     private lateinit var apiSecret: String
 
-    @Value("\${coolsms.fromnumber}")
+    @Value("\${coolsms.from.number}")
     private lateinit var fromNumber: String
 
     private class Message(
-
         private val apiKey: String,
         private val apiSecret: String
     ) {
@@ -55,7 +56,7 @@ class MessageService(
     }
 
     // 인증번호 전송하기
-    fun sendSMS(request: SmsRequest): String {
+    fun sendSMS(request: SmsRequest): SmsResponse {
         val coolsms = Message(apiKey, apiSecret)
         val map = HashMap<String, JsonElement>()
 
@@ -69,12 +70,11 @@ class MessageService(
         try {
             val obj = coolsms.send(params) as JsonObject
             println(obj.toString())
-        } catch (e: CoolsmsException) {
-            println(e.message)
-            println(e.code)
+        } catch (e: CoolSmsException) {
+            println("SMS 전송 오류: ${e.message}, 코드: ${e.code}")
         }
 
-        return "문자 전송이 완료되었습니다."
+        return SmsResponse(randomNum)
     }
     fun verifySms(request: SignUpRequest): String {
         if (isVerify(request)) {
@@ -89,8 +89,4 @@ class MessageService(
                 smsCertification.getSmsCertification(request.phoneNumber)
                     .equals(request.randomNumber))
     }
-}
-
-class CoolsmsException(message: String) : Exception(message) {
-    var code: Int = 0
 }
