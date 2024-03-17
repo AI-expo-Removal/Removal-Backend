@@ -55,3 +55,4 @@ coolsms:
   api:
     key: ${SMS_KEY}
     secret: ${SMS_SECRET}
+    number: ${SMS_NUMBER}
