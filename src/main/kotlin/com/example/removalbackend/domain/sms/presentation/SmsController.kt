@@ -1,4 +1,7 @@
+package com.example.removalbackend.domain.sms.presentation
+
 import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
+import com.example.removalbackend.domain.sms.service.MessageService
 import org.springframework.web.bind.annotation.*
 
 @RestController
