@@ -2,6 +2,7 @@ package com.example.removalbackend.domain.sms.service
 
 import com.example.removalbackend.domain.sms.exception.CoolSmsException
 import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
+import com.example.removalbackend.domain.sms.presentation.dto.request.VerifySmsRequest
 import com.example.removalbackend.domain.sms.presentation.dto.response.SmsResponse
 import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
 import com.example.removalbackend.domain.sms.repository.SmsCertification
@@ -31,7 +32,7 @@ class SmsService(
         private val apiKey: String,
         private val apiSecret: String
     ) {
-        fun send(params: HashMap<String, JsonElement>): Any{
+        fun send(params: HashMap<String, JsonElement>): Any {
             // 실제 전송 로직 작성
             return JsonObject(params) // 임시로 빈 JSON 객체 반환
         }
@@ -49,11 +50,11 @@ class SmsService(
 
     private fun makeParams(to: String, randomNum: String): JsonElement {
         val params = "{" +
-            "from : ${fromNumber}, " +
-            "type : SMS, " to "SMS" +
-            "app_version : test app 1.2, " +
-            "to : ${to}, " +
-            "text : ${randomNum}, "+ "}"
+                "from : ${fromNumber}, " +
+                "type : SMS, " to "SMS" +
+                "app_version : test app 1.2, " +
+                "to : ${to}, " +
+                "text : ${randomNum}, " + "}"
         return Json.encodeToJsonElement(params)
     }
 
@@ -78,17 +79,26 @@ class SmsService(
 
         return SmsResponse(randomNum)
     }
-    fun verifySms(request: SignUpRequest): String {
-        if (isVerify(request)) {
+
+    fun verifySms(request: VerifySmsRequest): String {
+        // 인증번호를 받지 않았거나 인증번호가 존재하지 않는 경우 예외 처리
+        if (!smsCertification.hasKey(request.phoneNumber)) {
+            throw IllegalArgumentException("인증번호를 받지 않았거나, 인증번호가 존재하지 않습니다.")
+        }
+
+        // 인증번호가 일치하지 않는 경우 예외 처리
+        if (!isVerify(request)) {
             throw IllegalArgumentException("인증번호가 일치하지 않습니다.")
         }
-        smsCertification.deleteSmsCertification(request.phoneNumber)
 
+        smsCertification.deleteSmsCertification(request.phoneNumber)
         return "인증 완료되었습니다."
     }
-    private fun isVerify(request: SignUpRequest): Boolean {
-        return !(smsCertification.hasKey(request.phoneNumber) &&
-                smsCertification.getSmsCertification(request.phoneNumber)
-                    .equals(request.randomNumber))
+
+    private fun isVerify(request: VerifySmsRequest): Boolean {
+        return smsCertification.hasKey(request.phoneNumber) &&
+                smsCertification.getSmsCertification(request.phoneNumber) == request.randomNumber
+
     }
+
 }
