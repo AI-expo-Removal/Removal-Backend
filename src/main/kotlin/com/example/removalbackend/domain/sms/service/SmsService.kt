@@ -85,20 +85,22 @@ class SmsService(
         if (!smsCertification.hasKey(request.phoneNumber)) {
             throw IllegalArgumentException("인증번호를 받지 않았거나, 인증번호가 존재하지 않습니다.")
         }
-
         // 인증번호가 일치하지 않는 경우 예외 처리
         if (!isVerify(request)) {
             throw IllegalArgumentException("인증번호가 일치하지 않습니다.")
         }
-
-        smsCertification.deleteSmsCertification(request.phoneNumber)
+        else{
+            smsCertification.deleteSmsCertification(request.phoneNumber)
+        }
         return "인증 완료되었습니다."
     }
 
     private fun isVerify(request: VerifySmsRequest): Boolean {
-        return smsCertification.hasKey(request.phoneNumber) &&
-                smsCertification.getSmsCertification(request.phoneNumber) == request.randomNumber
-
+        val certificationNumber = smsCertification.getSmsCertification(request.phoneNumber)
+        return certificationNumber != null && certificationNumber == request.randomNumber
     }
 
+    fun createSmsCertification(phoneNumber: String, certificationNumber: String, limitTimeInSeconds: Long = 300) {
+        smsCertification.createSmsCertification(phoneNumber, certificationNumber, limitTimeInSeconds)
+    }
 }

@@ -10,9 +10,14 @@ class SmsCertification(private val stringRedisTemplate: StringRedisTemplate) {
     private val LIMIT_TIME = 5 * 60 // 인증번호 유효 시간
 
     // Redis에 저장
-    fun createSmsCertification(phone: String, certificationNumber: String) {
-        stringRedisTemplate.opsForValue()
-            .set("$PREFIX$phone", certificationNumber, Duration.ofSeconds(LIMIT_TIME.toLong()))
+    fun createSmsCertification(phoneNumber: String, certificationNumber: String, limitTimeInSeconds: Long = 300) {
+        try {
+            stringRedisTemplate.opsForValue()
+                .set("$PREFIX$phoneNumber", certificationNumber, Duration.ofSeconds(limitTimeInSeconds))
+        } catch (e: Exception) {
+            // 로깅 라이브러리를 사용하여 에러 로깅을 할 수 있습니다. 예: Log.error("Redis operation failed", e)
+            throw IllegalStateException("인증번호 저장에 실패하였습니다.", e)
+        }
     }
 
     // 휴대전화 번호에 해당하는 인증번호 불러오기
