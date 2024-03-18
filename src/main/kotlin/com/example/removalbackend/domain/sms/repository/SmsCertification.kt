@@ -15,11 +15,10 @@ class SmsCertification(private val stringRedisTemplate: StringRedisTemplate) {
             stringRedisTemplate.opsForValue()
                 .set("$PREFIX$phoneNumber", certificationNumber, Duration.ofSeconds(limitTimeInSeconds))
         } catch (e: Exception) {
-            // 로깅 라이브러리를 사용하여 에러 로깅을 할 수 있습니다. 예: Log.error("Redis operation failed", e)
+            // 로깅 라이브러리를 사용하여 에러 로깅을 할 수 있다. 예: Log.error("Redis operation failed", e)
             throw IllegalStateException("인증번호 저장에 실패하였습니다.", e)
         }
     }
-
     // 휴대전화 번호에 해당하는 인증번호 불러오기
     fun getSmsCertification(phoneNumber: String): String? {
         return stringRedisTemplate.opsForValue().get("$PREFIX$phoneNumber")
