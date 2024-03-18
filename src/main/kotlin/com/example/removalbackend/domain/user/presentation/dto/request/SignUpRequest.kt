@@ -22,7 +22,5 @@ data class SignUpRequest(
     val name: String,
 
     @field: NotBlank(message = "null, 공백, 띄어쓰기를 허용하지 않습니다.")
-    val phoneNumber: String,
-
-    val randomNumber: String
+    val phoneNumber: String
 )
