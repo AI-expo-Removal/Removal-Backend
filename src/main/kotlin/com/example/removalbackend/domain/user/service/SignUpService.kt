@@ -25,7 +25,7 @@ class SignUpService(
             )
             userRepository.save(newUser)
         } else {
-            throw ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ${request.accountId} 아이디 입니다.")
+            throw ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ${request.accountId} 아이디 입니다.") as Throwable
         }
     }
     fun checkUser(accountId: String):Boolean{
