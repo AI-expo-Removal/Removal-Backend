@@ -4,7 +4,6 @@ import com.example.removalbackend.domain.sms.exception.CoolSmsException
 import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
 import com.example.removalbackend.domain.sms.presentation.dto.request.VerifySmsRequest
 import com.example.removalbackend.domain.sms.presentation.dto.response.SmsResponse
-import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
 import com.example.removalbackend.domain.sms.repository.SmsCertification
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement

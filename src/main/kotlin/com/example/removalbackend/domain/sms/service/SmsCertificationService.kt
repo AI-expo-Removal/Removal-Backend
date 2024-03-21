@@ -2,7 +2,6 @@ package com.example.removalbackend.domain.sms.service
 
 import com.example.removalbackend.domain.sms.repository.SmsCertification
 import org.springframework.stereotype.Service
-import java.io.Serial
 
 @Service
 class SmsCertificationService(private val smsCertification: SmsCertification) {

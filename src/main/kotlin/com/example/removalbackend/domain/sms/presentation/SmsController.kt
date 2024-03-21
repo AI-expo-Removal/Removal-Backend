@@ -4,7 +4,6 @@ import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
 import com.example.removalbackend.domain.sms.presentation.dto.request.VerifySmsRequest
 import com.example.removalbackend.domain.sms.presentation.dto.response.SmsResponse
 import com.example.removalbackend.domain.sms.service.SmsService
-import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
