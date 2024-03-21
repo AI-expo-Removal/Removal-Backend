@@ -5,6 +5,8 @@ import com.example.removalbackend.domain.sms.presentation.dto.request.VerifySmsR
 import com.example.removalbackend.domain.sms.presentation.dto.response.SmsResponse
 import com.example.removalbackend.domain.sms.service.SmsService
 import com.example.removalbackend.domain.user.presentation.dto.request.SignUpRequest
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -12,13 +14,19 @@ import org.springframework.web.bind.annotation.*
 class SmsController(
     private val smsService: SmsService
 ) {
-    @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping()
     fun sendSms(@RequestBody smsRequest: SmsRequest): SmsResponse{
         return smsService.sendSMS(smsRequest)
     }
 
-    @GetMapping
-    fun verifySms(@RequestBody verifySmsRequest: VerifySmsRequest): String{
-        return smsService.verifySms(verifySmsRequest)
+    @GetMapping()
+    fun verifySms(@RequestBody request: VerifySmsRequest): ResponseEntity<Any>{
+        return try {
+            val message = smsService.verifySms(request)
+            ResponseEntity.ok().body(mapOf("message" to message))
+        } catch (e: IllegalArgumentException) {
+            ResponseEntity.badRequest().body(mapOf("error" to e.message))
+        }
     }
 }
