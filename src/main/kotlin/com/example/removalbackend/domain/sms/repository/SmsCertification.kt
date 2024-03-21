@@ -5,12 +5,14 @@ import org.springframework.stereotype.Repository
 import java.time.Duration
 
 @Repository
-class SmsCertification(private val stringRedisTemplate: StringRedisTemplate) {
+class SmsCertification(
+    private val stringRedisTemplate: StringRedisTemplate
+) {
     private val PREFIX = "sms:" // key값이 중복되지 않도록 상수 선언
     private val LIMIT_TIME = 5 * 60 // 인증번호 유효 시간
 
     // Redis에 저장
-    fun createSmsCertification(phoneNumber: String, certificationNumber: String, limitTimeInSeconds: Long = 300) {
+    fun createSmsCertification(phoneNumber: String, certificationNumber: String, limitTimeInSeconds: Long = LIMIT_TIME.toLong()) {
         try {
             stringRedisTemplate.opsForValue()
                 .set("$PREFIX$phoneNumber", certificationNumber, Duration.ofSeconds(limitTimeInSeconds))
@@ -19,6 +21,7 @@ class SmsCertification(private val stringRedisTemplate: StringRedisTemplate) {
             throw IllegalStateException("인증번호 저장에 실패하였습니다.", e)
         }
     }
+
     // 휴대전화 번호에 해당하는 인증번호 불러오기
     fun getSmsCertification(phoneNumber: String): String? {
         return stringRedisTemplate.opsForValue().get("$PREFIX$phoneNumber")
