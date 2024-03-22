@@ -3,7 +3,6 @@ package com.example.removalbackend.domain.sms.service
 import com.example.removalbackend.domain.sms.exception.CoolSmsException
 import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
 import com.example.removalbackend.domain.sms.presentation.dto.request.VerifySmsRequest
-import com.example.removalbackend.domain.sms.presentation.dto.response.SmsResponse
 import com.example.removalbackend.domain.sms.repository.SmsCertification
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -58,7 +57,7 @@ class SmsService(
     }
 
     // 인증번호 전송하기
-    fun sendSMS(request: SmsRequest): SmsResponse {
+    fun sendSMS(request: SmsRequest){
         val coolsms = Message(apiKey, apiSecret)
         val map = HashMap<String, JsonElement>()
 
@@ -70,13 +69,12 @@ class SmsService(
         val params = hashMapOf(Pair(request.phoneNumber, makeParams(request.phoneNumber, randomNum)))
 
         try {
+            this.createSmsCertification(request.phoneNumber, randomNum, 300)
             val obj = coolsms.send(params) as JsonObject
             println(obj.toString())
         } catch (e: CoolSmsException) {
             println("SMS 전송 오류: ${e.message}, 코드: ${e.code}")
         }
-
-        return SmsResponse(randomNum)
     }
 
     fun verifySms(request: VerifySmsRequest): String {
