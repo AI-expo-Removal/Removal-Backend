@@ -15,12 +15,12 @@ class SmsController(
 ) {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping()
-    fun sendSms(@RequestBody smsRequest: SmsRequest): SmsResponse{
+    fun sendSms(@RequestBody smsRequest: SmsRequest): SmsResponse {
         return smsService.sendSMS(smsRequest)
     }
 
     @GetMapping()
-    fun verifySms(@RequestBody request: VerifySmsRequest): ResponseEntity<Any>{
+    fun verifySms(@RequestBody request: VerifySmsRequest): ResponseEntity<Any> {
         return try {
             val message = smsService.verifySms(request)
             ResponseEntity.ok().body(mapOf("message" to message))

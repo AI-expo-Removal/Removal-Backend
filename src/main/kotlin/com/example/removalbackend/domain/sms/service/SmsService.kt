@@ -87,8 +87,7 @@ class SmsService(
         // 인증번호가 일치하지 않는 경우 예외 처리
         if (!isVerify(request)) {
             throw IllegalArgumentException("인증번호가 일치하지 않습니다.")
-        }
-        else{
+        } else {
             smsCertification.deleteSmsCertification(request.phoneNumber)
         }
         return "인증 완료되었습니다."
