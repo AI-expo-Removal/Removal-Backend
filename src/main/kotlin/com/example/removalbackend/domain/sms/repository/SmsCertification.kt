@@ -1,6 +1,5 @@
 package com.example.removalbackend.domain.sms.repository
 
-import org.springframework.data.redis.core.SetOperations
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Repository
 import java.time.Duration
