@@ -15,10 +15,13 @@ spring:
         format_sql: true
     show-sql: true
 
+    config:
+      activate:
+        on-profile: redis
+
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
-    password: ${REDIS_PASSWORD}
     lettuce:
       pool:
         max-active: 8
