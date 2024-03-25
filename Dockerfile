@@ -1,4 +1,4 @@
-FROM openjdk:17-oracle
+FROM openjdk:17-jdk-alpine
 ENV TZ=Asia/Seoul
 
 ARG JAR_FILE=build/libs/*.jar
