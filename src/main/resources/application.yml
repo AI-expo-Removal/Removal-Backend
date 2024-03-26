@@ -59,6 +59,7 @@ jwt:
   refresh_exp: 2630016
   header: Authorization
   prefix: Bearer
+  algorithm: "HS256"
 
 logging:
   level:
