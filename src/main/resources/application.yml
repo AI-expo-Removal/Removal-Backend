@@ -15,22 +15,6 @@ spring:
         format_sql: true
     show-sql: true
 
-cloud:
-  aws:
-    s3:
-      bucket: ${AWS_S3_BUCKET}
-    credentials:
-      access-key: ${AWS_S3_ACCESS}
-      secret-key: ${AWS_S3_SECRET}
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false
-
-    config:
-      activate:
-        on-profile: redis
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
@@ -51,6 +35,19 @@ cloud:
   servlet:
     multipart:
       max-file-size: 10MB
+
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    credentials:
+      access-key: ${AWS_S3_ACCESS}
+      secret-key: ${AWS_S3_SECRET}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 
 jwt:
   secret_key: test-key
