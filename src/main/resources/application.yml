@@ -15,10 +15,22 @@ spring:
         format_sql: true
     show-sql: true
 
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    credentials:
+      access-key: ${AWS_S3_ACCESS}
+      secret-key: ${AWS_S3_SECRET}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
     config:
       activate:
         on-profile: redis
-
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
@@ -35,9 +47,11 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+
   servlet:
     multipart:
       max-file-size: 10MB
+
 jwt:
   secret_key: test-key
   access_exp: 7200
@@ -45,25 +59,13 @@ jwt:
   header: Authorization
   prefix: Bearer
 
-cloud:
-  aws:
-    s3:
-      bucket: ${AWS_S3_BUCKET}
-    credentials:
-      access-key: ${AWS_S3_ACCESS}
-      secret-key: ${AWS_S3_SECRET}
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false
-
 logging:
   level:
     com:
       amazonaws:
         util:
           EC2MetadataUtils: error
+
 coolsms:
   api:
     key: ${SMS_KEY}
