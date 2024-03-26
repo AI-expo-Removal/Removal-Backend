@@ -34,7 +34,6 @@ cloud:
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
-    password: ${REDIS_PASSWORD}
     lettuce:
       pool:
         max-active: 8
