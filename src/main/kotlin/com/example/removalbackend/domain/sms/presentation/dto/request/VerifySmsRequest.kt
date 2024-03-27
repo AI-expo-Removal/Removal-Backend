@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.NotBlank
 
 data class VerifySmsRequest(
+    @JsonProperty("phoneNumber")
     val phoneNumber: String,
 
     @JsonProperty("randomNumber")
