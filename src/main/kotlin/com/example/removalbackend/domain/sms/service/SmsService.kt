@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.encodeToJsonElement
+import net.nurigo.sdk.message.model.Message
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.util.*
@@ -30,47 +31,39 @@ class SmsService(
         private val apiKey: String,
         private val apiSecret: String
     ) {
-        fun send(params: HashMap<String, JsonElement>): Any {
-            // 실제 전송 로직 작성
-            return JsonObject(params) // 임시로 빈 JSON 객체 반환
+        fun send(params: HashMap<String, JsonElement>): JsonObject {
+            // 실제 SMS 전송 로직 구현
+            // 예시로 JsonObject를 반환
+            return JsonObject(mapOf("result" to Json.encodeToJsonElement("success")))
         }
     }
 
-    private fun createRandomNumber(): String {
-        val rand = Random()
-        var randomNum = ""
-        repeat(4) {
-            val random = rand.nextInt(10).toString()
-            randomNum += random
-        }
-        return randomNum
-    }
+    private fun createRandomNumber(): String = List(4) { Random().nextInt(10) }.joinToString("")
 
-    private fun makeParams(to: String, randomNum: String): JsonElement {
-        val params = "{" +
-                "from : ${fromNumber}, " +
-                "type : SMS, " to "SMS" +
-                "app_version : test app 1.2, " +
-                "to : ${to}, " +
-                "text : ${randomNum}, " + "}"
-        return Json.encodeToJsonElement(params)
+    private fun makeParams(to: String, randomNum: String): JsonObject {
+        return JsonObject(
+            mapOf(
+                "from" to Json.encodeToJsonElement(fromNumber),
+                "type" to Json.encodeToJsonElement("SMS"),
+                "app_version" to Json.encodeToJsonElement("test app 1.2"),
+                "to" to Json.encodeToJsonElement(to),
+                "text" to Json.encodeToJsonElement("[Removal] 인증번호: $randomNum")
+            )
+        )
     }
 
     // 인증번호 전송하기
-    fun sendSMS(request: SmsRequest){
+    fun sendSMS(request: SmsRequest) {
         val coolsms = Message(apiKey, apiSecret)
-        val map = HashMap<String, JsonElement>()
-
-        // 랜덤한 인증 번호 생성
         val randomNum = createRandomNumber()
         println(randomNum)
 
-        // 발신 정보 설정
-        val params = hashMapOf(Pair(request.phoneNumber, makeParams(request.phoneNumber, randomNum)))
+        val params = makeParams(request.phoneNumber, randomNum)
+        val map = hashMapOf<String, JsonElement>("message" to params)
 
         try {
             this.createSmsCertification(request.phoneNumber, randomNum, 300)
-            val obj = coolsms.send(params) as JsonObject
+            val obj = coolsms.send(map) // JSON 객체를 전송 로직에 전달
             println(obj.toString())
         } catch (e: CoolSmsException) {
             println("SMS 전송 오류: ${e.message}, 코드: ${e.code}")
