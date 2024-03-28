@@ -10,6 +10,6 @@ class UserInfoService(
 ) {
     fun execute(): UserInfoResponse{
         val user = userFacade.getCurrentUser()
-        return UserInfoResponse(user.accountId,user.name,user.phoneNumber)
+        return UserInfoResponse(user.accountId,user.name)
     }
 }
