@@ -1,19 +1,21 @@
-package com.example.removalbackend.domain.video.domain
+package com.example.removalbackend.domain.title.domain
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import com.example.removalbackend.domain.user.domain.User
+import java.time.LocalDateTime
+import javax.persistence.*
 
-@Entity(name = "tbl_video")
+@Entity(name = "tbl_title")
 class Video(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val videoId: Long? = null,
 
-    @Column(name = "video_url", columnDefinition = "VARCHAR(200)", nullable = false)
-    var videoUrl: String
-) {
-    protected constructor() : this(videoUrl = "")
-}
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    val title: String,
+
+    val createdAt: LocalDateTime,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    val userId: User
+)
