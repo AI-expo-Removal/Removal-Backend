@@ -5,8 +5,6 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
@@ -16,6 +14,14 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner
 class S3Config {
     @Value("\${cloud.aws.region.static}")
     private lateinit var region: String
+
+    @Value("\${AWS_S3_ACCESS}")
+    private val accessKey: String? = null
+
+    @Value("\${AWS_S3_SECRET}")
+    private val secretKey: String? = null
+
+    val videoFolder = "video"
 
     companion object {
         const val videoFolder = "video"
