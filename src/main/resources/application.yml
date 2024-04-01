@@ -69,3 +69,6 @@ coolsms:
     key: ${SMS_KEY}
     secret: ${SMS_SECRET}
     number: ${SMS_NUMBER}
+
+file:
+  upload-dir: /path/to/upload/directory
