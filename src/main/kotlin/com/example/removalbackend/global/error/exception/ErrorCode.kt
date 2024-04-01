@@ -9,6 +9,7 @@ enum class ErrorCode(
     INCORRECT_USER(400, "Incorrect User"),
     BAD_FILE_EXTENSION(400, "Bad File Extension"),
     NOT_ALLOW_SELF_APPLICATION(400, "Not Allow Self Application"),
+    FAILED_TO_CREATE_VIDEO(400,"Failed to create video"),
 
     TOKEN_INVALID(401, "Token Invalid"),
     TOKEN_EXPIRED(401, "Token Expired"),
