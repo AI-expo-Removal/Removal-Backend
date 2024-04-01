@@ -1,5 +1,5 @@
 package com.example.removalbackend.domain.video.presentation.dto.response
 
-class VideoTitleResponse(
+class VideoResponse(
     val videoUrl: String
 )
