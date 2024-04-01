@@ -1,77 +1,82 @@
 package com.example.removalbackend.domain.video.service
 
-import com.amazonaws.services.s3.AmazonS3
 import com.example.removalbackend.domain.title.domain.Video
-import com.example.removalbackend.domain.user.domain.User
-import com.example.removalbackend.domain.user.domain.repository.UserRepository
 import com.example.removalbackend.domain.user.facade.UserFacade
 import com.example.removalbackend.domain.video.domain.repository.VideoRepository
+import com.example.removalbackend.domain.video.exception.VideoCreationException
 import com.example.removalbackend.domain.video.presentation.dto.request.VideoTitleRequest
+import com.example.removalbackend.domain.video.presentation.dto.response.VideoResponse
+import com.example.removalbackend.global.utils.S3Utils
 import lombok.extern.slf4j.Slf4j
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.ByteArrayResource
+import org.springframework.dao.DataAccessException
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.multipart.MultipartFile
-import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.nio.file.StandardOpenOption
+import java.sql.SQLException
 import java.time.LocalDateTime
 import java.util.*
+import javax.annotation.Resource
 
 
 @Slf4j
 @Service
 class VideoService(
     private val videoRepository: VideoRepository,
-    private val userFacade: UserFacade
+    private val userFacade: UserFacade,
+    private val s3Utils: S3Utils,
 ) {
-    fun uploadFile(file: MultipartFile, chunkNumber: Int, totalChunks: Int): Boolean {
-        // 파일 업로드 위치
-        val uploadDir = "video"
-        val dir = File(uploadDir)
-        if (!dir.exists()) {
-            dir.mkdirs()
-        }
+    @Value("\${file.upload-dir}")
+    private lateinit var uploadDir: String
+//    fun uploadFile(file: MultipartFile): String {
+//        val fileName = file.originalFilename ?: throw IllegalArgumentException("Invalid file name")
+//        val filePath = Paths.get(uploadDir).resolve(fileName)
+//        Files.copy(file.inputStream, filePath)
+//        return fileName
+//    }
 
-        // 임시 저장 파일 이름
-        val filename = file.originalFilename + ".part" + chunkNumber
-        val filePath: Path = Paths.get(uploadDir, filename)
-        // 임시 저장
-        Files.write(filePath, file.bytes)
+//    @Throws(IOException::class)
+//    fun downloadFile(fileName: String): ResponseEntity<Resource> {
+//        val filePath: Path = Paths.get(uploadDir).resolve(fileName)
+//        val bytes: ByteArray = Files.readAllBytes(filePath)
+//        val resource: Resource = ByteArrayResource(bytes)
+//        return ResponseEntity.ok()
+//            .contentType(MediaType.valueOf("video/mp4"))
+//            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
+//            .body(resource)
+//    }
 
-        // 마지막 조각이 전송 됐을 경우
-        return if (chunkNumber == totalChunks - 1) {
-            val split = file.originalFilename!!.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }
-                .toTypedArray()
-            val outputFilename = UUID.randomUUID().toString() + "." + split[split.size - 1]
-            val outputFile: Path = Paths.get(uploadDir, outputFilename)
-            Files.createFile(outputFile)
-
-            // 임시 파일들을 하나로 합침
-            for (i in 0 until totalChunks) {
-                val chunkFile: Path = Paths.get(uploadDir, file.originalFilename + ".part" + i)
-                Files.write(outputFile, Files.readAllBytes(chunkFile), StandardOpenOption.APPEND)
-                // 합친 후 삭제
-                Files.delete(chunkFile)
-            }
-            true
-        } else {
-            false
-        }
-    }
+    // 비디오 등록
+//    @Transactional
+//    fun createVideo(request: VideoTitleRequest, userId: Long): Video {
+//        try {
+//            val video = Video(, userId)
+//            return videoRepository.save(video)
+//        } catch (ex: DataAccessException) {
+//            throw VideoCreationException
+//        }
+//    }
 
     @Transactional
-    fun saveTitle(request: VideoTitleRequest){
+    fun saveTitle(request: VideoTitleRequest, file: MultipartFile): VideoResponse {
         val user = userFacade.getCurrentUser()
         val videoBox = Video(
             0,
             request.title,
             LocalDateTime.now(),
+            videoUrl = s3Utils.upload(file),
             userId = user
         )
         videoRepository.save(videoBox)
+
+        return VideoResponse(videoBox.videoUrl)
     }
 }
