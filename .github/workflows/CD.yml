@@ -22,7 +22,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: |
+          npm install
+          npm run build
+        working-directory: echo ${{ github.workspace }}/eeuunn/removal-image
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
