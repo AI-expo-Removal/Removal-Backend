@@ -15,6 +15,9 @@ class Video(
 
     val createdAt: LocalDateTime,
 
+    @Column(columnDefinition = "VARCHAR(500)", nullable = false)
+    val videoUrl: String,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val userId: User
