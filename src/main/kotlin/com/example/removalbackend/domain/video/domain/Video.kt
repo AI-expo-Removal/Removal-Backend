@@ -1,14 +1,15 @@
 package com.example.removalbackend.domain.title.domain
 
 import com.example.removalbackend.domain.user.domain.User
+import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity(name = "tbl_title")
+@Entity(name = "tbl_video")
 class Video(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val videoId: Long? = null,
+    val videoId: Long,
 
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     val title: String,
