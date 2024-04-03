@@ -1,7 +1,6 @@
 package com.example.removalbackend.domain.title.domain
 
 import com.example.removalbackend.domain.user.domain.User
-import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDateTime
 import javax.persistence.*
 

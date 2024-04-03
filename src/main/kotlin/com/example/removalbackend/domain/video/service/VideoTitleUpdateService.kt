@@ -1,8 +1,6 @@
 package com.example.removalbackend.domain.video.service
 
-import com.example.removalbackend.domain.title.domain.Video
 import com.example.removalbackend.domain.user.facade.UserFacade
-import com.example.removalbackend.domain.video.domain.repository.VideoRepository
 import com.example.removalbackend.domain.video.exception.IncorrectUserException
 import com.example.removalbackend.domain.video.facade.VideoFacade
 import com.example.removalbackend.domain.video.presentation.dto.request.VideoTitleUpdateRequest

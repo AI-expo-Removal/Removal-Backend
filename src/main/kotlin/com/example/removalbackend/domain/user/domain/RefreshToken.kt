@@ -1,7 +1,5 @@
 package com.example.removalbackend.domain.user.domain
 
-
-
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.index.Indexed
 import javax.persistence.Id
