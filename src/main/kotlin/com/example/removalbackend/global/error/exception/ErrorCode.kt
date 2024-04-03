@@ -7,6 +7,7 @@ enum class ErrorCode(
     UNMATCHED_PASSWORD(400, "Unmatched Password"),
     INCORRECT_PASSWORD(400, "Incorrect Password"),
     INCORRECT_USER(400, "Incorrect User"),
+    VIDEO_NOT_FOUND(400, "Video Not Found"),
     BAD_FILE_EXTENSION(400, "Bad File Extension"),
     NOT_ALLOW_SELF_APPLICATION(400, "Not Allow Self Application"),
     FAILED_TO_CREATE_VIDEO(400,"Failed to create video"),
