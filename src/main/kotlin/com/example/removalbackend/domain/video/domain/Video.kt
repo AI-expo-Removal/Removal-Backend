@@ -12,7 +12,7 @@ class Video(
     val videoId: Long,
 
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
-    val title: String,
+    var title: String,
 
     val createdAt: LocalDateTime,
 
@@ -22,4 +22,8 @@ class Video(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val userId: User
-)
+){
+    fun titleUpdate(title: String){
+        this.title = title
+    }
+}
