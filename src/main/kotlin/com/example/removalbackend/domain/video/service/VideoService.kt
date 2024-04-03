@@ -1,5 +1,7 @@
 package com.example.removalbackend.domain.video.service
 
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.model.ObjectMetadata
 import com.example.removalbackend.domain.title.domain.Video
 import com.example.removalbackend.domain.user.facade.UserFacade
 import com.example.removalbackend.domain.video.domain.repository.VideoRepository
@@ -16,6 +18,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.nio.file.Files
@@ -30,53 +33,12 @@ import javax.annotation.Resource
 @Slf4j
 @Service
 class VideoService(
-    private val videoRepository: VideoRepository,
-    private val userFacade: UserFacade,
+    private val amazonS3: AmazonS3,
     private val s3Utils: S3Utils,
+
+    @Value("\${cloud.aws.s3.bucket}")
+    private val bucket: String
 ) {
-    @Value("\${file.upload-dir}")
-    private lateinit var uploadDir: String
-//    fun uploadFile(file: MultipartFile): String {
-//        val fileName = file.originalFilename ?: throw IllegalArgumentException("Invalid file name")
-//        val filePath = Paths.get(uploadDir).resolve(fileName)
-//        Files.copy(file.inputStream, filePath)
-//        return fileName
-//    }
-
-//    @Throws(IOException::class)
-//    fun downloadFile(fileName: String): ResponseEntity<Resource> {
-//        val filePath: Path = Paths.get(uploadDir).resolve(fileName)
-//        val bytes: ByteArray = Files.readAllBytes(filePath)
-//        val resource: Resource = ByteArrayResource(bytes)
-//        return ResponseEntity.ok()
-//            .contentType(MediaType.valueOf("video/mp4"))
-//            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
-//            .body(resource)
-//    }
-
-    // 비디오 등록
-//    @Transactional
-//    fun createVideo(request: VideoTitleRequest, userId: Long): Video {
-//        try {
-//            val video = Video(, userId)
-//            return videoRepository.save(video)
-//        } catch (ex: DataAccessException) {
-//            throw VideoCreationException
-//        }
-//    }
-
     @Transactional
-    fun saveTitle(request: VideoTitleRequest, file: MultipartFile): VideoResponse {
-        val user = userFacade.getCurrentUser()
-        val videoBox = Video(
-            0,
-            request.title,
-            LocalDateTime.now(),
-            videoUrl = s3Utils.upload(file),
-            userId = user
-        )
-        videoRepository.save(videoBox)
-
-        return VideoResponse(videoBox.videoUrl)
-    }
+    fun uploadVideo(multipartFile: MultipartFile): VideoResponse = VideoResponse(s3Utils.uploadVideo(multipartFile))
 }
