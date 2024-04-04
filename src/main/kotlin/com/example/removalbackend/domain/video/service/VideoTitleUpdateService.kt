@@ -13,12 +13,12 @@ class VideoTitleUpdateService(
     private val userFacade: UserFacade
 ) {
     @Transactional
-    fun titleUpdate(request: VideoTitleUpdateRequest){
-        val video = videoFacade.getById(videoId = 0)
+    fun titleUpdate(request: VideoTitleUpdateRequest) {
+        val video = videoFacade.getById(request.videoId)
         val user = userFacade.getCurrentUser()
         if (user != video.userId) {
             throw IncorrectUserException
         }
-        video.titleUpdate(request.title)
+        video.titleUpdate(request.title, request.videoUrl)
     }
 }
