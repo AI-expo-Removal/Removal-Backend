@@ -8,7 +8,7 @@ import javax.persistence.*
 class Video(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val videoId: Long,
+    var videoId: Long,
 
     @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     var title: String,
@@ -16,13 +16,14 @@ class Video(
     val createdAt: LocalDateTime,
 
     @Column(columnDefinition = "VARCHAR(500)", nullable = false)
-    val videoUrl: String,
+    var videoUrl: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val userId: User
 ){
-    fun titleUpdate(title: String){
+    fun titleUpdate(title: String,videoUrl: String){
         this.title = title
+        this.videoUrl = videoUrl
     }
 }
