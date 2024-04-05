@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class VideoFacade(
     private val videoRepository: VideoRepository
 ) {
-    fun getById(videoId: Long): Video{
+    fun getById(videoId: Long): Video {
         return videoRepository.findById(videoId).orElseThrow { VideoNotFoundException }
     }
 }

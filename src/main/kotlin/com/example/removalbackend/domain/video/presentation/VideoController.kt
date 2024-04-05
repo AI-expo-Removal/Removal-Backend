@@ -41,11 +41,13 @@ class VideoController(
     fun saveFile(@RequestPart("file") multiPartFile: MultipartFile): VideoResponse {
         return videoService.uploadVideo(multiPartFile)
     }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     fun saveTitle(@RequestBody request: VideoTitleRequest) {
         return videoUploadService.videoTitleService(request)
     }
+
     @PatchMapping
     fun updateVideoTitle(
         @RequestBody request: VideoTitleUpdateRequest,
@@ -65,13 +67,14 @@ class VideoController(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{video-id}")
-    fun getTitle(@PathVariable("video-id") videoId: Long): ResponseEntity<Video>{
+    fun getTitle(@PathVariable("video-id") videoId: Long): ResponseEntity<Video> {
         val title = getVideoTitleService.getTitle(videoId)
         return ResponseEntity.ok(title)
     }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{video-id}")
-    fun deleteVideoAndTitle(@PathVariable("video-id") videoId: Long){
+    fun deleteVideoAndTitle(@PathVariable("video-id") videoId: Long) {
         videoRepository.deleteById(videoId)
     }
 }

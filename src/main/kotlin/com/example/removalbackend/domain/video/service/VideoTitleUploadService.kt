@@ -10,9 +10,9 @@ import java.time.LocalDateTime
 @Service
 class VideoTitleUploadService(
     private val userFacade: UserFacade,
-    private val videoRepository : VideoRepository
+    private val videoRepository: VideoRepository
 ) {
-    fun videoTitleService(request: VideoTitleRequest){
+    fun videoTitleService(request: VideoTitleRequest) {
         val user = userFacade.getCurrentUser()
         val video = Video(0, request.title, LocalDateTime.now(), request.videoUrl, user)
         videoRepository.save(video)

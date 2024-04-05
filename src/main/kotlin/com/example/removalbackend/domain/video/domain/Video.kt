@@ -21,8 +21,8 @@ class Video(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val userId: User
-){
-    fun titleUpdate(title: String,videoUrl: String){
+) {
+    fun titleUpdate(title: String, videoUrl: String) {
         this.title = title
         this.videoUrl = videoUrl
     }
