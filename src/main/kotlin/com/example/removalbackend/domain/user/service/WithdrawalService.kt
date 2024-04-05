@@ -9,7 +9,7 @@ class WithdrawalService(
     private val userRepository: UserRepository,
     private val userFacade: UserFacade
 ) {
-    fun memberDelete(){
+    fun memberDelete() {
         val user = userFacade.getCurrentUser()
         return userRepository.delete(user)
     }

@@ -30,7 +30,7 @@ class UserController(
     private val updatePasswordService: UpdatePasswordService,
     private val withdrawalService: WithdrawalService
 
-    ) {
+) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     fun signUp(@RequestBody @Valid request: SignUpRequest) {
@@ -39,7 +39,7 @@ class UserController(
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    fun signIn(@RequestBody @Valid request: SignInRequest) :TokenResponse {
+    fun signIn(@RequestBody @Valid request: SignInRequest): TokenResponse {
         return signInService.execute(request)
     }
 
@@ -58,19 +58,19 @@ class UserController(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/user")
-    fun userInfo(): UserInfoResponse{
+    fun userInfo(): UserInfoResponse {
         return userInfoService.execute()
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/password")
-    fun updatePassword(@RequestBody @Valid request: UpdatePasswordRequest){
+    fun updatePassword(@RequestBody @Valid request: UpdatePasswordRequest) {
         return updatePasswordService.updatePassword(request)
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping()
-    fun deleteMember(){
+    fun deleteMember() {
         return withdrawalService.memberDelete()
     }
 }

@@ -10,7 +10,7 @@ class UpdatePasswordService(
     private val userRepository: UserRepository,
     private val userFacade: UserFacade
 ) {
-    fun updatePassword(request: UpdatePasswordRequest){
+    fun updatePassword(request: UpdatePasswordRequest) {
         val user = userFacade.getCurrentUser()
         user.updatePassword(request.password)
 

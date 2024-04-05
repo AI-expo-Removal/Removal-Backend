@@ -15,7 +15,7 @@ class SignUpService(
     private val passwordEncoder: PasswordEncoder
 ) {
     @Transactional
-    fun execute(request: SignUpRequest){
+    fun execute(request: SignUpRequest) {
         if (!checkUser(request.accountId)) {
             val newUser = User(
                 request.accountId,
@@ -28,7 +28,8 @@ class SignUpService(
             throw ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ${request.accountId} 아이디 입니다.") as Throwable
         }
     }
-    fun checkUser(accountId: String):Boolean{
+
+    fun checkUser(accountId: String): Boolean {
         return userRepository.existsByAccountId(accountId)
     }
 }
