@@ -1,4 +1,5 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-jdk-oracle
+
 ENV TZ=Asia/Seoul
 ENV AWS_S3_ACCESS=sldjfhlsjflsjdfl
 ENV AWS_S3_SECRET=skdhfewiheyfihiewo
