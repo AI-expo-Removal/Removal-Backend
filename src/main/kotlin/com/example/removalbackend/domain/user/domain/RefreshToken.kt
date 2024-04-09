@@ -5,7 +5,7 @@ import org.springframework.data.redis.core.index.Indexed
 import javax.persistence.Id
 import javax.validation.constraints.NotBlank
 
-@RedisHash(value = "RefreshToken", timeToLive = 60 * 60 * 2)
+@RedisHash(value = "RefreshToken")
 class RefreshToken(
     @Id
     var id: Long? = null,
