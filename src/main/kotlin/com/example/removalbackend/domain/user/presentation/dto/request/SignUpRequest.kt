@@ -21,6 +21,6 @@ data class SignUpRequest(
     @field: Size(min = 1, max = 5, message = "1자 ~ 5자 까지 허용합니다")
     val name: String,
 
-//    @field: NotBlank(message = "null, 공백, 띄어쓰기를 허용하지 않습니다.")
-//    val phoneNumber: String
+    @field: NotBlank(message = "null, 공백, 띄어쓰기를 허용하지 않습니다.")
+    val phoneNumber: String
 )
