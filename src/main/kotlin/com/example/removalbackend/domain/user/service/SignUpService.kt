@@ -21,7 +21,7 @@ class SignUpService(
                 request.accountId,
                 passwordEncoder.encode(request.password),
                 request.name,
-//                request.phoneNumber
+                request.phoneNumber
             )
             userRepository.save(newUser)
         } else {
