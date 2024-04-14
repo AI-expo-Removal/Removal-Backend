@@ -15,15 +15,15 @@ class User(
     @Column(name = "name", columnDefinition = "CHAR(5)", nullable = false)
     var name: String,
 
-    @Column(name = "phone_number",columnDefinition = "CHAR(12)", nullable = false)
-    var phoneNumber: String
+//    @Column(name = "phone_number",columnDefinition = "CHAR(12)", nullable = false)
+//    var phoneNumber: String
 ) {
     @JsonCreator
     constructor() : this(
         accountId = "user123",
         password = "password123",
         name = "hahahaha",
-        phoneNumber = "123456789"
+//        phoneNumber = "123456789"
     )
 
     @JsonCreator
