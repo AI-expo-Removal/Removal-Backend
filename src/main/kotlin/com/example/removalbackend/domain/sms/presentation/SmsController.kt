@@ -1,11 +1,9 @@
 //package com.example.removalbackend.domain.sms.presentation
 //
 //import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
-//import com.example.removalbackend.domain.sms.presentation.dto.request.VerifySmsRequest
+//import com.example.removalbackend.domain.sms.presentation.dto.response.PasswordMatchResponse
 //import com.example.removalbackend.domain.sms.service.SmsService
 //import net.nurigo.sdk.message.model.Message
-//import net.nurigo.sdk.message.request.SingleMessageSendingRequest
-//import net.nurigo.sdk.message.response.SingleMessageSentResponse
 //import org.springframework.web.bind.annotation.*
 //
 //@RestController
@@ -16,10 +14,10 @@
 //    @GetMapping("/{phone-number}/random-number")
 //    fun getMessageList(
 //        @PathVariable("phone-number") phoneNumber: String,
-//        @RequestParam("code") randomNumber: String
-//    ): String {
-//        val verifySmsRequest = VerifySmsRequest(phoneNumber, randomNumber)
-//        return smsService.verifySms(verifySmsRequest)
+//        @RequestParam("random-number",  required = true) randomNumber: String
+//    ): PasswordMatchResponse {
+//        val isVerify = smsService.verifySmsCertification(phoneNumber, randomNumber)
+//        return PasswordMatchResponse(isVerify)
 //    }
 //
 //    @PostMapping()

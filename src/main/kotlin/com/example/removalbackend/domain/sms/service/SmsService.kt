@@ -2,13 +2,11 @@
 //
 //import com.example.removalbackend.domain.sms.exception.CoolSmsException
 //import com.example.removalbackend.domain.sms.presentation.dto.request.SmsRequest
-//import com.example.removalbackend.domain.sms.presentation.dto.request.VerifySmsRequest
 //import com.example.removalbackend.domain.sms.repository.SmsCertification
 //import kotlinx.serialization.json.Json
 //import kotlinx.serialization.json.JsonElement
 //import kotlinx.serialization.json.JsonObject
 //import kotlinx.serialization.json.encodeToJsonElement
-//import net.nurigo.sdk.message.model.Message
 //import org.springframework.beans.factory.annotation.Value
 //import org.springframework.stereotype.Service
 //import java.util.*
@@ -70,23 +68,14 @@
 //        }
 //    }
 //
-//    fun verifySms(request: VerifySmsRequest): String {
-//        // 인증번호를 받지 않았거나 인증번호가 존재하지 않는 경우 예외 처리
-//        if (!smsCertification.hasKey(request.phoneNumber)) {
-//            throw IllegalArgumentException("인증번호를 받지 않았거나, 인증번호가 존재하지 않습니다.")
-//        }
-//        // 인증번호가 일치하지 않는 경우 예외 처리
-//        if (!isVerify(request)) {
-//            throw IllegalArgumentException("인증번호가 일치하지 않습니다.")
-//        } else {
-//            smsCertification.deleteSmsCertification(request.phoneNumber)
-//        }
-//        return "인증 완료되었습니다."
-//    }
+//    fun verifySmsCertification(providedCertificationNumber: String, phoneNumber: String): Boolean {
+//        // 인증번호 가져오기 (key value)
+//        // 인증번호 요청 된 값이랑 비교하기
+//        // 반환해주기
+//        // Redis에서 저장된 인증번호 가져오기
+//        val save = smsCertification.getSmsCertification(phoneNumber)
 //
-//    private fun isVerify(request: VerifySmsRequest): Boolean {
-//        val certificationNumber = smsCertification.getSmsCertification(request.phoneNumber)
-//        return certificationNumber != null && certificationNumber == request.randomNumber
+//        if()
 //    }
 //
 //    fun createSmsCertification(phoneNumber: String, certificationNumber: String, limitTimeInSeconds: Long = 300) {
