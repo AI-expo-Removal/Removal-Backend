@@ -49,12 +49,12 @@ cloud:
       auto: false
 
 jwt:
-  secret_key: test-key
-  access_exp: 7200
-  refresh_exp: 2630016
-  header: Authorization
-  prefix: Bearer
-  algorithm: "HS256"
+  secret_key: ${JWT_SECRET_KEY}
+  access_exp: ${JWT_ACCESS_EXP:7200}
+  refresh_exp: ${JWT_REFRESH_EXP:86400}
+  header: ${JWT_HEADER:Authorization}
+  prefix: ${JWT_PREFIX:Bearer}
+  algorithm: ${JWT_ALGORITHM:HS256}
 
 logging:
   level:
