@@ -18,11 +18,13 @@ spring:
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
-    lettuce:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
+    
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+
   jackson:
     property-naming-strategy: SNAKE_CASE
     serialization:
