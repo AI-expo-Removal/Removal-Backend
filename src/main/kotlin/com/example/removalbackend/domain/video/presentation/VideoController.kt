@@ -38,7 +38,7 @@ class VideoController(
 ) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/video")
-    fun saveFile(@RequestPart("file") multiPartFile: MultipartFile): VideoResponse {
+    fun saveFile(@RequestPart(value = "file") multiPartFile: MultipartFile): VideoResponse {
         return videoService.uploadVideo(multiPartFile)
     }
 
