@@ -23,7 +23,10 @@ spring:
         max-active: 8
         max-idle: 8
         min-idle: 0
-        
+        max-wait: -1ms
+      shutdown-timeout: 200ms
+      timeout: 300ms
+
   jackson:
     property-naming-strategy: SNAKE_CASE
     serialization:
