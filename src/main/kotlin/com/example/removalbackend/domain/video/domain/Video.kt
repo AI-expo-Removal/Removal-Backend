@@ -1,6 +1,6 @@
 package com.example.removalbackend.domain.title.domain
 
-//import com.example.removalbackend.domain.user.domain.User
+import com.example.removalbackend.domain.user.domain.User
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -18,11 +18,11 @@ class Video(
     @Column(columnDefinition = "VARCHAR(500)", nullable = false)
     var videoUrl: String,
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    val userId: User
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    val userId: User
 ) {
-    fun titleUpdate(title: String, videoUrl: String) {
+    fun titleUpdate(title: String, videoUrl: String){
         this.title = title
         this.videoUrl = videoUrl
     }
